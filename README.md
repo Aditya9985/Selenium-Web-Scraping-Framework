@@ -3,21 +3,14 @@ https://github.com/user-attachments/assets/343ece2a-2eef-4817-ab67-7a47653718de
 
 
 
-# Rediff Web Scraper - Interview Preparation Guide
-
-This guide explains **every single part** of your new web scraping automation framework in basic, beginner-friendly English. 
-
+# Rediff Web Scraper 
 ---
 
 ## 1. Project Structure overview
-When someone asks: *"How did you structure your web scraper?"*
-**Your Answer:** "I used the exact same Page Object Model (POM) design pattern as my login framework, but adapted it for extracting data instead of just logging in.
 1. **utilities**: Helper classes to read configs, take screenshots, setup reports, and a brand new `WriteExcel` class to save the scraped data.
 2. **pages**: Stores the web elements (the coordinates of the HTML table).
 3. **actions**: Loops through the HTML table and extracts the text.
 4. **base & tests**: Handles opening the browser, running the scrape, and saving the file."
-
----
 
 ## 2. Root Files & Folders
 
@@ -26,7 +19,6 @@ When someone asks: *"How did you structure your web scraper?"*
 
 ### File: `config.properties`
 **What does it do?** It stores the `browser` and the `url` for the Rediff Gainers page (`https://money.rediff.com/gainers/bse/daily/groupall`).
-- *If an interviewer asks:* "I put the URL in a properties file so that if the website address ever changes, I just edit one line of text here instead of digging through my Java code."
 
 ### Folder: `testdata/`
 **What does it do?** Unlike our login framework which *read* from an Excel file here, our new scraper will *create* a brand new file here called `ScrapedStockData.xlsx` to save the results.
@@ -52,7 +44,6 @@ When someone asks: *"How did you structure your web scraper?"*
 ### Class: `RediffLocators.java`
 **What does it do?** It stores the "GPS coordinates" (locators) for the big data table on the website.
 - **`By TABLE_HEADERS = By.xpath("//table[@class='dataTable']/thead/tr/th");`**: 
-  - *If an interviewer asks:* "I used XPath to write a custom path. It tells Selenium to find the table with the specific class name, go inside the `thead` (Table Head), into the `tr` (Table Row), and grab all the `th` (Table Header) elements."
 - **`By TABLE_ROWS = By.xpath("//table[@class='dataTable']/tbody/tr");`**: Same logic as above, but this points to the `tbody` (Table Body) where all the actual stock data lives.
 - **`By ROW_CELLS = By.tagName("td");`**: This is a simple locator to find the individual boxes (cells) inside a specific row.
 
@@ -64,7 +55,6 @@ When someone asks: *"How did you structure your web scraper?"*
 **What does it do?** This is the core logic of the scraper. It uses the locators to actually read the website.
 - **`public List<String> scrapeHeaders()`**: Finds all the column names (Company, Group, Prev Close) and saves them into a Java List.
 - **`public List<List<String>> scrapeAllRows()`**: This looks scary but is very simple! It is a "List of Lists" (A big list holding many small lists).
-  - *If an interviewer asks how it works:* "First, I find all 100+ rows on the website. Then, I use a `for` loop to go through each row one-by-one. Inside that loop, I find all the individual cells (`td`) for that specific row. I extract the text from the cells, put them into a small 'singleRowData' list, and then add that small list into my massive 'allRowsData' list."
 
 ---
 
@@ -82,7 +72,6 @@ When someone asks: *"How did you structure your web scraper?"*
 
 
 ---
-### Interview Cheat Sheet:
 1. **Web Scraping**: The act of using code (like Selenium) to automatically read and extract text from a website.
 2. **List of Lists (`List<List<String>>`)**: The best way to store table data in Java. The "Outer" list represents the Rows, and the "Inner" lists represent the Columns (cells) inside that row.
 3. **Apache POI**: The Java library we use to create and edit Microsoft Excel `.xlsx` files without needing Excel installed.
